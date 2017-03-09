@@ -1,9 +1,9 @@
 <?php
 namespace estoque\Http\Controllers;
 
+use estoque\Http\Requests\ProdutosRequest;
 use estoque\Produto;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ProdutoController extends Controller
 {
@@ -28,15 +28,8 @@ class ProdutoController extends Controller
         return view('produto.formulario');
     }
 
-    public function adiciona(){
-        $validator = Validator::make(['nome' => Request::input('nome')], ['nome' => 'required|min:5']);
-
-        if ($validator->fails()){
-            $messages = $validator->messages();
-            return redirect()->action('ProdutoController@novo');
-        }
-
-        Produto::create(Request::all());
+    public function adiciona(ProdutosRequest $request){
+        Produto::create($request->all());
         return redirect()
             ->action('ProdutoController@lista')
             ->withInput(Request::only('nome'));

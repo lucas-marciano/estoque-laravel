@@ -11,9 +11,8 @@ class ProdutosRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
+    public function authorize(){
+        return true;
     }
 
     /**
@@ -21,10 +20,21 @@ class ProdutosRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(){
         return [
-            //
+            'nome' => 'required|max:100',
+            'descricao' => 'required|max:255',
+            'valor' => 'required|numeric'
+        ];
+    }
+
+    public function messages(){
+        return [
+            'nome.required' => 'O campo Nome não pode estár vázio.',
+            'descricao.required' => 'O campo Descrição não pode estár vázio.',
+            'descricao.max' => 'O campo Descrição não pode ter mais de 255 caracteres.',
+            'valor.required' => 'O campo Valor não pode estár vázio.',
+            'valor.numeric' => 'Por favor insira um valor numerico.'
         ];
     }
 }
